@@ -12,6 +12,6 @@ public class ViewCounterServlet extends HttpServlet {
        counter += 1;
        response.setContentType("text/HTML");
        PrintWriter out = response.getWriter();
-       out.println("<hi> This page has been viewed " + counter +" times!</h1");
+       out.println("<hi> This page has been viewed " + counter + " times!</h1");
     }
 }
