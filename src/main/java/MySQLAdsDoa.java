@@ -21,6 +21,11 @@ public class MySQLAdsDoa implements Ads{
             e.printStackTrace();
         }
     }
+
+    public MySQLAdsDoa() {
+
+    }
+
     @Override
     public List<Ad> all() {
         List<Ad> output = new ArrayList<>();
@@ -46,6 +51,22 @@ public class MySQLAdsDoa implements Ads{
 
     @Override
     public Long insert(Ad ad) {
-        return null;
+        try {
+           Statement stmt = connection.createStatement();
+           stmt.executeUpdate(createInsertQuery(ad), Statement.RETURN_GENERATED_KEYS);
+           ResultSet rs = stmt.getGeneratedKeys();
+           rs.next();
+           return rs.getLong(1);
+        } catch (SQLException e){
+           throw new RuntimeException("Error creating a new ad.", e );
+        }
+    }
+    private String createInsertQuery(Ad ad){
+        return "INSERT ONTO ads(user_id, title, description) VALUES"
+                +"(" + ad.getUserId() +","
+                +"'" + ad.getTitle() +"',"
+                +"'" + ad.getDescription() + "')";
     }
 }
+
+
